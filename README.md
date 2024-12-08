@@ -1,1 +1,2 @@
 # FinalProject
+FitFriend is an application dedicated to helping the user reach their fitness goals by providing a platform for them to input their health and nutrition information, their workout routines, and their target weight. Based on the information provided, FitFriend can make suggestions with regards to calorie deficits and timelines to reaching fitness goals, as well provide information on how many calories are taken in from eating, TDEE, and how many are burned by physical activity.
