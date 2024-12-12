@@ -1,7 +1,23 @@
 import tkinter as tk
 
 class FitFrenApp(tk.Frame): #Creates overall window for FitFriend
+    """ 
+    FitFrenApp class creates the root window for the overall app. It inherits from tk.Frame and
+    has methods to create the display area, the pages of the app, and the buttons used for navigation.
+
+    Args:
+       none
+    """    
     def __init__(self, root, set_height = 500, set_width = 800, bg_color = '#98FBCB', text_color = 'black'):
+        """_summary_
+
+        Args:
+            root (_type_): Root window for application.
+            set_height (int, optional): Height of window. Defaults to 500.
+            set_width (int, optional): Width of window. Defaults to 800.
+            bg_color (str, optional): Color of background. Defaults to '#98FBCB'.
+            text_color (str, optional): Color of text. Defaults to 'black'.
+        """        
         super().__init__(root) #init for tk.frame, this is where you pass in arguments for the parent class tk.Frame
         
         self.main = root
@@ -20,6 +36,9 @@ class FitFrenApp(tk.Frame): #Creates overall window for FitFriend
         self.create_button_area()
         
     def create_display_area(self):
+        """
+        Creates the display area using tk Frame object and the initialized design values.
+        """        
         self.display_frame = tk.Frame(self.main, bg = self.bg_color, height = self.app_height - 50, width = self.app_width)
         
         #This places the display frame at the 0th row and 0th column of the root window 
@@ -28,6 +47,8 @@ class FitFrenApp(tk.Frame): #Creates overall window for FitFriend
         self.display_frame.grid_propagate(0)
     
     def create_pages(self): #Creates each page to be displayed in the app
+        """ Creates pages that can be navigated to in the app and displays them in the frame.
+        """        
         health_page = HealthInfo(self.display_frame)
         health_page.grid(row=0, column=0, sticky="nsew")
     
@@ -40,6 +61,8 @@ class FitFrenApp(tk.Frame): #Creates overall window for FitFriend
         self.frames = [main_page, health_page, tracker_page]
         
     def create_button_area(self):
+        """Creates button frame and buttons, places in frame.
+        """        
         #Create a container to hold buttons
         self.button_frame = tk.Frame(self.main, bg='#FEFFF1', height= 50, width = self.app_width)
         # This places the button frame at the first row and zero column of the root window 
@@ -59,7 +82,17 @@ class FitFrenApp(tk.Frame): #Creates overall window for FitFriend
         
     
 class MainPage(tk.Frame): #Landing page for FitnessFriend
+    """MainPage serves as the landing page for the app and welcomes the user. All other pages can be 
+    accessed from here.
+    """    
     def __init__(self, parent, bg_color = '#98FBCB', text_color = 'black'):
+        """Initializes design variables and root window for main page.
+
+        Args:
+            parent (_type_): root window for MainPage.
+            bg_color (str, optional): Background color. Defaults to '#98FBCB'.
+            text_color (str, optional): Text color. Defaults to 'black'.
+        """        
         super().__init__(parent, background=bg_color)
         self.main = parent
         self.bg_color = bg_color
@@ -67,6 +100,9 @@ class MainPage(tk.Frame): #Landing page for FitnessFriend
         self.create_display_area()
         
     def create_display_area(self):
+        """ Creates the display area and displays all desired text for the page. Places labels within the
+        grid to be displayed on the page.
+        """        
         self.display_frame = tk.Frame(self.main, bg = self.bg_color, height = 500, width = 800)
         
         #This places the display frame at the 0th row and 0th column of the root window
@@ -84,15 +120,26 @@ class MainPage(tk.Frame): #Landing page for FitnessFriend
         self.display_label.grid(row = 2, column = 0, sticky = 'nsew')
         
     def show(self):  #Shows desired page
+        """Uses tkraise to display the page when selected.
+        """        
         self.tkraise()
         self.create_display_area()
 
     def hide(self):  # Hides page
+        """ Hides page by forgetting how it is packed onto the screen.
+        """        
         self.pack_forget()
         
         
 class HealthInfo(tk.Frame): #Page where user will enter their health information
     def __init__(self, parent, bg_color = '#98FBCB', text_color = 'black'):
+        """Initializes design variables and root window for health info page.
+
+        Args:
+            parent (_type_): root window for health info page.
+            bg_color (str, optional): Background color. Defaults to '#98FBCB'.
+            text_color (str, optional): Text color. Defaults to 'black'.
+        """        
         super().__init__(parent, background=bg_color)
         self.bg_color = bg_color
         self.main = parent
@@ -101,6 +148,9 @@ class HealthInfo(tk.Frame): #Page where user will enter their health information
         self.input_health_info()
      
     def create_display_area(self):
+        """Creates the display area and displays all desired text for the page. Places labels within the
+        grid to be displayed on the page.
+        """        
         self.display_frame = tk.Frame(self.main, height = 500, width = 800, bg = self.bg_color)
         
         #This places the display frame at the 0th row and 0th column of the root window
@@ -112,49 +162,60 @@ class HealthInfo(tk.Frame): #Page where user will enter their health information
                                       text = 'Health Information', height = 2, width = 10, wraplength = 200)
         self.display_label.grid(row = 0, column = 0)
         
-    def input_health_info(self): #Creates all the fields for user to enter health info and receive suggestions
+    def input_health_info(self):
+        """Serves as the point for users to enter their health information and calculates BMI and suggested calorie deficit.
+        tk Frame, Label, and Entry are used to receive user input and the buttons calculate upon click.
+        """        
+        #Creates all the fields for user to enter health info and receive suggestions
         #Create overall frame
         self.user_input_frame = tk.Frame(self.display_frame, height= 500, width=800, bg=self.bg_color)
         self.user_input_frame.grid(row=1, column=0)
         self.user_input_frame.grid_propagate(0)
         
         #Current height entry
-        self.height_label = tk.Label(self.user_input_frame, fg = self.text_color, bg = self.bg_color, text='Enter your height in meters: ').grid(row=1, column=0, sticky='w')
+        self.height_label = tk.Label(self.user_input_frame, fg = self.text_color, bg = self.bg_color, font = ('Rockwell', 10), text='Enter your height in meters: ').grid(row=1, column=0, sticky='w')
         self.userheight = tk.DoubleVar()
         self.userheight.set(0)
         self.health_entry = tk.Entry(self.user_input_frame, textvariable = self.userheight, width=10).grid(row=1, column=1)
         
         #Current weight entry
-        self.weight_label = tk.Label(self.user_input_frame, fg = self.text_color, bg = self.bg_color, text='Enter your weight in kilograms: ').grid(row=2, column=0, sticky='w')
+        self.weight_label = tk.Label(self.user_input_frame, fg = self.text_color, bg = self.bg_color, font = ('Rockwell', 10), text='Enter your weight in kilograms: ').grid(row=2, column=0, sticky='w')
         self.userweight = tk.DoubleVar()
         self.userweight.set(0)
         self.health_entry = tk.Entry(self.user_input_frame, textvariable = self.userweight, width=10).grid(row=2, column=1)
         
         self.enter_button = tk.Button(self.user_input_frame, fg = 'white', bg='black', text='Enter', command=lambda: self.calc_bmi(self.userheight.get(), self.userweight.get()))
-        self.enter_button.grid(row=3, column=1, ipadx=1, ipady=1, pady=2)
+        self.enter_button.grid(row=2, column=2, ipadx=1, ipady=1, padx = 5, pady=5)
         
         #Calculates BMI once user hits "enter" on height and weight
-        self.bmi_label = tk.Label(self.user_input_frame, fg = self.text_color, bg = self.bg_color, text='Your BMI:')
+        self.bmi_label = tk.Label(self.user_input_frame, fg = self.text_color, bg = self.bg_color, font = ('Rockwell', 10, 'bold'), text='Your BMI:')
         self.bmi_label.grid(row=4, column=0, sticky='w')
         
         #Outputs maintenance calories based on weight
-        self.maintenance_label = tk.Label(self.user_input_frame, fg = self.text_color, bg = self.bg_color, text='Your maintenance calories:')
+        self.maintenance_label = tk.Label(self.user_input_frame, fg = self.text_color, bg = self.bg_color, font = ('Rockwell', 10, 'bold'), text='Your maintenance calories:')
         self.maintenance_label.grid(row=5, column=0, sticky='w')
         
         #Target weight entry
-        self.maintenance_label = tk.Label(self.user_input_frame, fg = self.text_color, bg = self.bg_color, text='Enter your target weight:').grid(row=6, column=0)
+        self.maintenance_label = tk.Label(self.user_input_frame, fg = self.text_color, bg = self.bg_color, font = ('Rockwell', 10), text='Enter your target weight:').grid(row=6, column=0, sticky = 'w')
         self.targetweight = tk.DoubleVar()
         self.targetweight.set(0)
         self.target_entry = tk.Entry(self.user_input_frame, textvariable = self.targetweight, width=10).grid(row=6, column=1, ipadx=1, ipady=1, pady=2)
         
         self.enter_button = tk.Button(self.user_input_frame, fg = 'white', bg='black', text='Enter', command=lambda: self.calc_cal_deficit(self.targetweight.get()))
-        self.enter_button.grid(row=6, column=3, ipadx=1, ipady=1, pady=2)
+        self.enter_button.grid(row=6, column=3, ipadx=1, ipady=1, padx = 2, pady=5)
         
         #Outputs calorie deficit based on target weight
-        self.cal_def = tk.Label(self.user_input_frame, fg = self.text_color, bg = self.bg_color, text='Your suggested calorie deficit:')
+        self.cal_def = tk.Label(self.user_input_frame, fg = self.text_color, bg = self.bg_color, font = ('Rockwell', 10, 'bold'), text='Your suggested calorie deficit:')
         self.cal_def.grid(row=7, column=0, sticky='w')
         
     def calc_bmi(self, height, weight):#Calculates BMI and handles exceptions in case user enters invalid characters
+        """Calculates BMI based on user input in meters and kilograms. Referenced in the 
+        button command to return BMI on screen.
+
+        Args:
+            height (int or float): User entered height in meters.
+            weight (int or float): User entered weight in kilograms.
+        """        
         try:
             height_square = (height ** 2)
             bmi = weight / height_square
@@ -168,13 +229,25 @@ class HealthInfo(tk.Frame): #Page where user will enter their health information
             print(e)
             
     def calc_maintenance_cals(self, weight): #Calculates calories to maintain current weight and updates label
+        """Calculates maintenance calories based on user weight input in kilograms. Referenced in the 
+        button command to return BMI on screen. Updates the label in input_health_info frame based off of calculation.
+
+        Args:
+            weight (int or float): User entered weight in kilograms.
+        """        
         try:
-            maintenance_cals = weight * 15
+            maintenance_cals = weight * 15 * 2.2
             self.maintenance_label['text'] = 'Your maintenance calories: ' + str(maintenance_cals)
         except:
             self.maintenance_label['text'] = 'Please try again.'
             
     def calc_cal_deficit(self, target_weight): #Calculates recommended calorie deficit and updates labels
+        """Calculates recommended calorie deficit based on entered user target weight. Referenced in the 
+        button command to return calorie deficit on screen. Updates the label in input_health_info frame based off of calculation.
+
+        Args:
+            target_weight (int or float): User entered target weight in kilograms.
+        """       
         try:
             cal_deficit = target_weight * 2.2 * 12
             float_def = f"{cal_deficit:.2f}"
@@ -184,26 +257,45 @@ class HealthInfo(tk.Frame): #Page where user will enter their health information
             self.cal_def['text'] = 'Please try again.'
        
     def show(self):  #Shows desired page
+        """Uses tkraise to display the page when selected.
+        """        
         self.tkraise()
         self.create_display_area()
         self.input_health_info()
 
     def hide(self):  # Hides page
+        """Hides page by forgetting how it is packed onto the screen.
+        """        
         self.pack_forget()
         
 class Tracker(tk.Frame): #Log for calorie intake for each day of the week
     def __init__(self, parent, bg_color = '#98FBCB', text_color = 'black'):
+        """Initializes design variables and root window for main page.
+
+        Args:
+            parent (_type_): root window for MainPage.
+            bg_color (str, optional): Background color. Defaults to '#98FBCB'.
+            text_color (str, optional): Text color. Defaults to 'black'.
+        """        
         super().__init__(parent, background=bg_color)
         self.main = parent
         self.bg_color = bg_color
         self.text_color = text_color
         self.create_display_area()
      
-    def save_data(self, entry, t): #Source: StackOverflow, save data for log purposes
+    def save_data(self, entry): #Source: StackOverflow, save data for log purposes
+        """Saves entered data for user to return to. Retrieved when save button is clicked.
+
+        Args:
+            entry (str or int): User entry into text field.
+        """        
         global last_entry
         last_entry = entry.get()
         
     def create_display_area(self):
+        """Creates the display area and displays all desired text for the page. Places labels within the
+        grid to be displayed on the page.
+        """        
         self.display_frame = tk.Frame(self.main, bg = self.bg_color)
         
         #This places the display frame at the 0th row and 0th column of the root window
@@ -216,7 +308,12 @@ class Tracker(tk.Frame): #Log for calorie intake for each day of the week
         self.display_label.grid(row = 0, column = 0)
         
         
-    def daily_tracker(self): #Display calorie count per day of the week based on selected meals
+    def daily_tracker(self): 
+        """Displays entry fields for calorie amounts for each day of the week. User can submit for each
+        day of the week, as well as the average for the week, and have their data. Also displays
+        a table of sample healthy meals that users can use in their calorie count.
+        """        
+        #Display calorie count per day of the week based on selected meals
         #Create frame to hold tracker
         self.tracker_frame = tk.Frame(self.display_frame, height= 500, width=800, bg='#98FBCB')
         self.tracker_frame.grid(row=1, column=0)
@@ -278,16 +375,25 @@ class Tracker(tk.Frame): #Log for calorie intake for each day of the week
             
                            
     def get_cal_list(self, cals):
+        """Creates list of calorie count for each day of the week from user entry.
+
+        Args:
+            cals (int): User entered calorie total.
+        """        
         self.cal_list = self.cal_count.append(cals)
 
         
     def show(self):  #Shows desired page
+        """"Uses tkraise to display the page when selected. 
+        """        
         self.tkraise()
         self.create_display_area()
         self.daily_tracker()
         
 
     def hide(self):  # Hides page
+        """Hides page by forgetting how it is packed onto the screen.
+        """        
         self.pack_forget()
    
 
